@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS groups (
+  id TEXT PRIMARY KEY,
+  token TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS members (
+  id TEXT PRIMARY KEY,
+  group_id TEXT NOT NULL REFERENCES groups(id) ON DELETE CASCADE,
+  name TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS expenses (
+  id TEXT PRIMARY KEY,
+  group_id TEXT NOT NULL REFERENCES groups(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  amount_toman INTEGER NOT NULL,
+  split_type TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS payers (
+  expense_id TEXT NOT NULL REFERENCES expenses(id) ON DELETE CASCADE,
+  member_id TEXT NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  amount_toman INTEGER NOT NULL,
+  PRIMARY KEY (expense_id, member_id)
+);
+
+CREATE TABLE IF NOT EXISTS shares (
+  expense_id TEXT NOT NULL REFERENCES expenses(id) ON DELETE CASCADE,
+  member_id TEXT NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  weight NUMERIC(14, 4) NOT NULL,
+  PRIMARY KEY (expense_id, member_id)
+);

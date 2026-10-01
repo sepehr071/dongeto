@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #1a1a18;
+  --paper: #f4ead6;
+  --paper-2: #efe1c4;
+  --stamp: #b4331c;
+  --pistachio: #2f5746;
+  --rule: #cbb896;
+  --shadow: #1a1a18;
+  color-scheme: light;
+}
+
+/* dark = carbon copy: same receipt, printed on dark stock */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #efe6d2;
+    --paper: #1b1915;
+    --paper-2: #26221c;
+    --stamp: #ec6a4c;
+    --pistachio: #86c2a3;
+    --rule: #4a4235;
+    --shadow: #000000;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-stamp: var(--stamp);
+  --color-pistachio: var(--pistachio);
+  --color-rule: var(--rule);
+  --font-sans: var(--font-vazir);
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+body {
+  min-height: 100%;
+  font-family: var(--font-vazir), Tahoma, sans-serif;
+  background-color: var(--color-paper);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 27px,
+      color-mix(in srgb, var(--ink) 5%, transparent) 28px
+    );
+}
+
+::selection {
+  background: var(--color-stamp);
+  color: var(--color-paper);
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-stamp);
+  outline-offset: 2px;
+}
+
+.slip {
+  position: relative;
+  background: var(--color-paper-2);
+  border: 1px solid var(--color-ink);
+  box-shadow: 3px 4px 0 var(--shadow);
+}
+
+.stamp-mark {
+  display: inline-block;
+  border: 2px solid var(--stamp);
+  color: var(--stamp);
+  padding: 0.1rem 0.6rem;
+  transform: rotate(-6deg);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+@keyframes dot {
+  0%, 80%, 100% { opacity: 0.2; }
+  40% { opacity: 1; }
+}
+
+.typing span {
+  animation: dot 1.2s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.15s; }
+.typing span:nth-child(3) { animation-delay: 0.3s; }
+
+.slip-perforation {
+  background-image: radial-gradient(
+    circle,
+    var(--color-paper) 5px,
+    transparent 5.5px
+  );
+  background-size: 16px 16px;
+  background-position: -8px -8px;
+  background-repeat: repeat-x;
+  height: 10px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
